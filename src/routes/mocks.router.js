@@ -1,36 +1,39 @@
 import { Router } from 'express';
-import { generateMockPets } from '../utils/mockingPets.js';
-import { generateMockUsers } from '../utils/mockingUsers.js';
-import UserModel from '../dao/models/user.model.js';
-import PetModel from '../dao/models/pet.model.js';
+import UserModel from '../models/user.model.js';
+import PetModel from '../models/pet.model.js';
+import { generateMockUsers } from '../utils/mockUsers.js';
+import { generateMockPets } from '../utils/mockPets.js';
 
 const router = Router();
 
 router.get('/mockingpets', (req, res) => {
-  const pets = generateMockPets(20);
-  res.json({ status: 'success', payload: pets });
+  const pets = generateMockPets(50);
+  res.json(pets);
 });
 
 router.get('/mockingusers', (req, res) => {
   const users = generateMockUsers(50);
-  res.json({ status: 'success', payload: users });
+  res.json(users);
 });
 
 router.post('/generateData', async (req, res) => {
-  const { users = 0, pets = 0 } = req.body;
+  try {
+    const { users = 0, pets = 0 } = req.body;
 
-  const mockUsers = generateMockUsers(Number(users));
-  const insertedUsers = await UserModel.insertMany(mockUsers);
+    const usersToInsert = generateMockUsers(users);
+    const petsToInsert = generateMockPets(pets);
 
-  const mockPets = generateMockPets(Number(pets));
-  const insertedPets = await PetModel.insertMany(mockPets);
+    const insertedUsers = await UserModel.insertMany(usersToInsert);
+    const insertedPets = await PetModel.insertMany(petsToInsert);
 
-  res.json({
-    status: 'success',
-    message: 'Datos generados correctamente',
-    usersInserted: insertedUsers.length,
-    petsInserted: insertedPets.length,
-  });
+    res.json({
+      message: `Insertados ${insertedUsers.length} usuarios y ${insertedPets.length} mascotas.`,
+      users: insertedUsers,
+      pets: insertedPets,
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al insertar datos mock', details: error.message });
+  }
 });
 
 export default router;
