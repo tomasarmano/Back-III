@@ -5,11 +5,13 @@ import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import swaggerUi from 'swagger-ui-express';
+import { swaggerSetup } from './docs/swagger.js';
 import swaggerSpec from './docs/swagger.js';
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
 import adoptionRouter from './routes/adoption.router.js';
 import mocksRouter from './routes/mocks.router.js';
+import uploadRouter from './routes/upload.router.js';
 
 dotenv.config();
 
@@ -26,7 +28,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL,
+      mongoUrl: process.env.MONGO_URI,
       ttl: 3600,
     }),
   })
@@ -41,6 +43,7 @@ app.use('/api/adoption', adoptionRouter);
 app.use('/api/mocks', mocksRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/pets', petsRouter);
+app.use('/api/upload', uploadRouter);
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

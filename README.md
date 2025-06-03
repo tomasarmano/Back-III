@@ -11,7 +11,7 @@ Proyecto backend de gestión de adopciones de mascotas desarrollado con Node.js,
 - Swagger para documentación
 - Multer para manejo de archivos
 - Mocha + Chai + Supertest para testing
-- Docker para contenerización
+- Docker + Docker Compose para contenerización
 
 ---
 
@@ -21,4 +21,4 @@ Proyecto backend de gestión de adopciones de mascotas desarrollado con Node.js,
 
 ```bash
 git clone https://github.com/tomasarmano/Back-III.git
-cd Back
+cd Back-III

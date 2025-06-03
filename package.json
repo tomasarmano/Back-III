@@ -1,7 +1,18 @@
 {
+  "name": "adoptme",
+  "version": "1.0.0",
+  "description": "Proyecto Adoptme",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "mocha --timeout 5000 --exit"
+  },
   "dependencies": {
     "@faker-js/faker": "^9.7.0",
     "bcrypt": "^5.1.1",
+    "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
@@ -17,8 +28,5 @@
     "supertest": "^7.1.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
-  },
-  "scripts": {
-  "test": "mocha --timeout 5000"
   }
 }

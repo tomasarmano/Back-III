@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: adoptme
+    volumes:
+      - mongo_data:/data/db
+
+  adoptme-app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/adoptme
+      - JWT_SECRET=123456789
+      - SESSION_SECRET=secretKey
+      - PORT=3000
+    volumes:
+      - .:/app
+    command: npm run dev
+
+volumes:
+  mongo_data:
